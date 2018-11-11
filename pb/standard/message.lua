@@ -231,12 +231,14 @@ function _M.def(parent, name, ast)
 			local field = fields[i]
 			local name = field.name
 			local val = data[name]
-			if val ~= nil or field.default then
+			if val ~= nil then
 				-- check if group/message/repeated fields are intializied
 				if field.is_complex then
 					local init, errmsg = val:IsInitialized()
 					if not init then return init, errmsg end
 				end
+			elseif field.default then
+				self[name] = field.default 
 			elseif field.is_required then
 				return false, "Missing required field: " .. name
 			end
