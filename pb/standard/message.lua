@@ -168,7 +168,7 @@ function _M.def(parent, name, ast)
 				local field = fields[i]
 				local name = field.name
 				local val = parse_from_data[name]
-				if val ~= nil and field.default then
+				if val == field.default then
 					parse_from_data[name] = field.default 
 				end
 			end
