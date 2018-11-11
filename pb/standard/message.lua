@@ -230,7 +230,7 @@ function _M.def(parent, name, ast)
 			local field = fields[i]
 			local name = field.name
 			local val = data[name]
-			if val ~= nil then
+			if val ~= nil or field.default then
 				-- check if group/message/repeated fields are intializied
 				if field.is_complex then
 					local init, errmsg = val:IsInitialized()
