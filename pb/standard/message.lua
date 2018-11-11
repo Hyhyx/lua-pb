@@ -162,18 +162,7 @@ function _M.def(parent, name, ast)
 				return false, "Unsupported serialization format: " .. format
 			end
 			
-			local parse_from_data = encode(self, depth)
-			--get default field
-			for i=1,#fields do  
-				local field = fields[i]
-				local name = field.name
-				local val = parse_from_data[name]
-				if val == field.default then
-					parse_from_data[name] = field.default 
-				end
-			end
-			
-			return parse_from_data
+			return encode(self, depth)
 		end
 		function methods:Merge(data, format, off, len)
 			format = format or 'binary'
