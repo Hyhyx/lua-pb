@@ -271,6 +271,25 @@ function _M.def(parent, name, ast)
 			end
 		end
 	end
+	
+	function methods:get_table()
+                local data = rawget(self, '.data')
+                local rsp = {}
+                for key, value in pairs(data) do
+                        local field = fields[key]
+                        if field.is_basic or field.is_enum then
+                                rsp[key] = value
+                        elseif field.is_complex and not field.is_repeated then
+                                rsp[key] = value:get_table()
+                        elseif field.is_complex and field.is_repeated then
+                                rsp[key] = {}
+                                for i, proto in ipairs(value) do
+                                        table.insert(rsp[key], proto:get_table())
+                                end 
+                        end 
+                end 
+                return rsp 
+        end
 		-- CopyFrom()
 	function methods:CopyFrom(msg2)
 		-- first clear this message.
